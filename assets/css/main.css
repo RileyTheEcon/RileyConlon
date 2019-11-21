@@ -1469,6 +1469,32 @@ input, select, textarea {
 			width: 100%;
 		}
 
+		/* Added by me */
+		.bordered-bio-image img {
+			/*display: block;*/
+			width: 50%;
+			/*background: #fff url("images/bg04.png");*/
+			padding: 10px;
+			/*box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.15);*/
+			/*margin: 0 0  0;*/
+			outline: 0;
+		}
+
+		.bordered-list-image img {
+			/*display: block;*/
+			width: 30%;
+			background: #fff url("images/bg04.png");
+			margin-bottom: 2px;
+			margin-right: 10px;
+			padding: 7px;
+			box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.15);
+			outline: 0;
+		}
+
+
+
+
+
 	.button-large {
 		background-image: -moz-linear-gradient(top, #ed391b, #ce1a00);
 		background-image: -webkit-linear-gradient(top, #ed391b, #ce1a00);
