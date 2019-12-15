@@ -6,9 +6,9 @@ $message = $_POST['message'];
 
 $recipient = "r.conlon9494@gmail.com";
 $subject = "Contact Response from $name";
-$formcontent = "Message: $message \n $name \n $email \n $phone"
+$formcontent = "Message: $message \n $name \n $email \n $phone";
 $mailheader = "From: $email & $phone";
 
 mail($recipient,$subject,$formcontent,$mailheader);
-echo "Thank you!"
+echo "Thank you!";
 ?>
