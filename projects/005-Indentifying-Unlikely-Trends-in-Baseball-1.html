@@ -1,0 +1,249 @@
+<!DOCTYPE HTML>
+<!--
+	Riley Conlon's Research Portfolio
+	Attapted from:
+	Halcyonic by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Conlon Portfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<link rel="icon" href="../images/favicon1.png" />
+	</head>
+	<body>
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<section id="header">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+
+								<!-- Logo -->
+									<h1><a href="../index.html" id="logo">Riley Conlon</a></h1>
+
+								<!-- Nav -->
+									<nav id="nav">
+										<a href="../index.html">Home</a>
+										<a href="../list-of-pages.html">List of Projects</a>
+										<a href="../contact-me.html">Contact</a>
+									</nav>
+
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Features -->
+				<!-- Left Side Column of Links? -->
+
+			<!-- Content -->
+            <section id="content">
+					<div class="container">
+						<div class="row">
+								<!-- Side Bar -->
+                                <div class="col-3 col-12-medium">
+                                        <section>
+                                            <header>
+                                                <h2>Also See:</h2>
+                                            </header>
+                                            <ul class="link-list">
+                                                <li><a href="../projects/005-Indentifying-Unlikely-Trends-in-Baseball-1.html">
+													Identifying Unlikely Trends in the Performance of Baseball Teams: Introduction and Data</a></li>
+                                                <li><a href="../projects/004-Masters-Paper-US-Treasury.html">
+													Master's Paper: Forecasting the 10-Year US Treasury...</a></li>
+                                                <li><a href="../projects/003-Forecasting-Wine-Sales.html">
+													Forecasting Wine Sales Under Optimal Advertising Strategy</a></li>
+                                                <li><a href="../projects/002-Portfolio-Construction.html">
+													Portfolio Construction Project</a></li>
+                                                <li><a href="../projects/001-Senior-Minimum-Wage.html">
+													Senior Paper: The Effect of Minimum Wage on Labor Force...</a></li>
+                                            </ul>
+                                        </section>
+                            	</div>
+
+                            <!-- Page -->
+							<div class="col-9 col-12-medium">
+								<section>
+									<header>
+										<h2><strong><b>Identifying Unlikely Trends in the Performance of Baseball Teams</b></strong></h2>
+									</header>
+										<p>
+											<i>(Originally posted February 17, 2020)</i>
+										</p>
+										<p>
+											<b>Introduction:</b><br>
+											On January 13, 2020, the MLB announced the suspensions of two Astros managers in connection with an 
+											ongoing investigation into allegations of sign-stealing. The announcement stated that the Astros engaged 
+											in a multiyear campaign to decrypt the hand signs used by pitchers and catchers to coordinate pitching 
+											strategy<sup>1</sup>. As of writing, the full extent of this campaign is 
+											uncomfirmed by officials; however, we know that knowing the next pitch would give the Astros a 
+											considerable advantage in batting. Dodgers pitcher, Alex Wood tweeted in response: "I would rather face 
+											a player that was taking steriods than face a player that knew every pitch that was coming."<sup>2</sup>
+											It is from this scandal that we get our research questions for this project: Can we model the probability of a
+											team's performance in a game given both teams' performance prior to that game, and then can we use those
+											results to identify suspicious trends?
+										</p>
+										<p>
+											Prior to starting on this research question, I was experimenting with the use of Bayesian Machine Learning 
+											to predict the outcomes of baseball games. Specifically, I was comparing the efficacy of different BML methods. 
+											As a part of that project, I developed a webscraping program for collecting the data for baseabll games from 
+											online. Since I already had this application, I could not pass over the opportunity to tie this new 
+											project into my ongoing work. With a few edits, I adapted my code to capture more information from 
+											team-level batting statistics (total homeruns, total slugging percent, etc.). I reran my webscraper, 
+											starting with Opening Day, 2000, and collected the data for 49,227 major league baseball games<sup>3</sup>.
+											This will be our dataset for this project.
+										</p>
+										<p>
+											In addition to introducing the premise of this project, this post will also explain how I built the code 
+											for collecting the data. In the next post, I will explain my theoretical model, the 
+											variables, and a discussion of some of my initial findings. After that, I will be positng the results of 
+											my models with a discussion of my findings.
+										</p>
+										<p>
+											<b>Data:</b><br>
+											The source for our data is the Baseball Reference website. Its uniform layout makes it a reliable source 
+											for accessing data with a webscraper. It is our goal to collect data for games starting in 2000. 
+											By starting in 2000, we are also capturing data from the Steriod Era of baseball<sup>4</sup>. This data should provide a 
+											reliable robustness test for our theoretical model. The Python libraries, Beautiful Soup (BS4) and URLlib, 
+											provide the easiest tools to use for connecting to web servers, downloading a page's html, and then 
+											formatting it. Specifically, Beautiful Soup is able to take the rough text of a webpage and parse it in 
+											such a way that the tags used in html are seen as separate objects in Python. Since this project requires 
+											downloading several pages, the first function we define bundles all those steps together.
+										</p>
+										<script src="https://gist.github.com/RileyTheEcon/f2cf0d6a9a8b97092a18d8ad990ebcf7.js"></script>
+										<p>
+											While we find it faster to parse text manually later in the project, the built-in BS4 html parser formats 
+											the Baseball Reference's season schedule page fast and effectively. The page lists each game in its own 
+											&lt;p&gt; tag, along with team names, final scores and links to relevant pages. Using BS4's <i>find_all</i>
+											function with arguments, 'p' and 'game,' returns an array whose entries contain the information for each 
+											game. From there, we use a <i>for</i> loop to read through each game. Thus, this array constitutes the 
+											backbone of our webscraper.
+										</p>
+										<script src="https://gist.github.com/RileyTheEcon/995ddc874e525eaf5573b17f54cf23f9.js"></script>
+										<p>
+											Now that we have the text for each game organized, we can start extracting data. Unfortunately, this is 
+											where the BS4  html format stops being helpful. We found it hard to navigate the pages and produce 
+											consistent results using the methods attached to the BS4 objects. From this point, we opt to convert the 
+											html object to a string, and start parsing text manually. Normally, this would imply excessive uses of 
+											string subsetting; however, I developed a function to expedite this process.
+										</p>
+										<script src="https://gist.github.com/RileyTheEcon/f86be8aea41cafc8a4af5879c5ca3ecf.js"></script>
+										<p>
+											I developed <i>isolate_better</i> so that only one of the substrings passed to it needs to be unique in 
+											the orinigal string. Attempting to subset a string using 
+											<br>
+											<i>string[string.find('substring A'):string.find('substring B')]</i>
+											<br>
+											might work well if <i>substring A</i> and <i>B</i> are unique in the string variable; however, if any 
+											instances of <i>substring B</i> occur in the string before <i>substring A,</i> then the result will be an 
+											empty string--Remember: we need to keep the code general enough to be applied to thousands of games. The 
+											soultion we found was to take a slightly different approach with <i>isolate_better:</i> Given a unique 
+											starting substring, it will only look for the end substring in the text following the starting substring; 
+											alternatively, given a unique ending substring, it will only look for the start substring in the text 
+											preceeding the ending substring. This proved to be extremely helpful working with the converted html, 
+											where for example every entry in a table ends in <i>&lt;/td&gt;</i> but only one entry starts with 
+											<i>&lt;data-stat="RBI"&gt;.</i>
+										</p>
+										<script src="https://gist.github.com/RileyTheEcon/7f410025a2bf34d165416d04ba469665.js"></script>
+										<p>
+											With this tool in hand, I was not only able to quickly pull the relevant data from the entry in the 
+											season schedule, but also grab the URL from the link that connected to each game's specific page. Using 
+											our dlURL function, we are able to follow the link and download the html from the game's page. Each game 
+											in our season schedule list has its own page. It is these pages that provide the most data.
+										</p>
+										<p>
+											At the start of our webscraper, we define three <i>pandas</i> dataframes. One dataframe for storing the 
+											data we gather for each game, one dataframe for storing specific data about each team, and one dataframe 
+											for storing data about each pitcher. The team dataframe holds the counts of each team's win/loss record 
+											as well as the batting stats from their previous game. This allowed us to keep track of the team's 
+											win/loss ratio for the season up to that game, as well as record the team's performance in the previous 
+											game. After this data recorded in the game dataframe, the current game's data is saved to the team 
+											dataframe to be used for their next game. Similar steps were taken to track and record the performance 
+											of opening pitchers<sup>5</sup>.
+										</p>
+										<script src="https://gist.github.com/RileyTheEcon/64d978d4ada6a01d5961a947097cf084.js"></script>
+										<script src="https://gist.github.com/RileyTheEcon/e0361eb0a086a0eade62fe29b5cf4943.js"></script>
+										<p>
+											The results of using the dataframes in this way is that our main dataset, the game dataframe, holds team 
+											names, pitcher names, final score, a win/loss binary for the home team, both teams' win/loss ratio for 
+											the season prior to the game, both teams' batting performance in their previous game, both starting 
+											pitchers' win/loss ratio for the season prior to the game, and both pitchers' performance in the previous 
+											season<sup>6</sup>. The other two dataframes, pitcher and team, allow us to collect the data in this 
+											way. Since all three dataframes are exported as csv, this also allows us to add new games to the dataset 
+											without needing to rerun the full webscraper.
+										</p>
+										<p>
+											With these dataframes and the functions defined above, we are able to isolate specific stats on each page,
+											find and access links to new pages, and capture from those pages as well. That is how our dataset for this 
+											project is generated. In my next post, I will discuss how I chose our dependent variables, analyze the 
+											initial trends in our data, and use LASSO to help determine which independent variables to consider going 
+											forward.
+										</p>
+										<p>
+											[1] <a href='https://www.houstonchronicle.com/texas-sports-nation/astros/article/How-the-Astros-cheating-scandal-played-out-14972308.php'>
+												https://www.houstonchronicle.com/texas-sports-nation/astros/article/How-the-Astros-cheating-scandal-played-out-14972308.php</a>
+											<br>
+											[2] <a href='https://www.nytimes.com/2020/01/18/sports/houston-astros-cheating.html'>
+												https://www.nytimes.com/2020/01/18/sports/houston-astros-cheating.html</a>
+											<br>
+											[3] Includes almost all regular season games and post-season. Excludes Spring training. The first three 
+											games of 2012 were deleted due to irregular formatting causing a glitch in the webscraping program.
+											<br>
+											[4] <a href='http://www.espn.com/mlb/topics/_/page/the-steroids-era'>
+												http://www.espn.com/mlb/topics/_/page/the-steroids-era</a>
+											<br>
+											[5] Prior to my work using Bayesian Machine Learning with baseball data, I had briefly experimented with 
+											building logit models to examine a similar dataset. My main finding from that practice was statistics 
+											related to the starting pitchers had much stronger predictive power than any other statistic—except for 
+											a few team averages. This finding informs my choice in focusing on statistics tied to starting pitchers 
+											and the overall team.
+											<br>
+											[6] Statistics like WAR and its derivatives are usually reported at the season-by-season level. Thus 
+											last season’s performance in these areas is included as a potential proxy for current season 
+											performance.
+										</p>
+								</section>
+							</div>
+						</div>
+					</div>
+            </section>
+
+			<!-- Footer -->
+				<section id="footer">
+					<div class="container">
+						<div class="row">
+							<div class="col-12 col-12-medium imp-medium">
+								<!-- Blurb -->
+								<section>
+									<h2>A Special Thank You!</h2>
+									<p>
+										This site was developed from the templates provided by <a href="http://html5up.net">HTML5 UP</a> and hosted through
+										the GitHub Pages feature. Pictures not provided by myself are courtesy of <a href="https://www.pexels.com/">Pexels</a>. Thank you for visiting!
+									</p>
+								</section>
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Copyright -->
+				<div id="copyright">
+					&copy; Portfolio Website for Riley Conlon. All rights reserved. | Design: <a href="http://html5up.net">HTML5 UP</a>
+				</div>
+
+		</div>
+
+		<!-- Scripts -->	
+			<script src="../assets/js/jquery.min.js"></script>
+			<script src="../assets/js/browser.min.js"></script>
+			<script src="../assets/js/breakpoints.min.js"></script>
+			<script src="../assets/js/util.js"></script>
+			<script src="../assets/js/main.js"></script>
+
+	</body>
+</html>
