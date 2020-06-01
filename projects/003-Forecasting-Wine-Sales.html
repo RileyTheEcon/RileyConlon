@@ -71,12 +71,67 @@
 								<section>
 									<header>
 										<h2><strong>
-                                            Forecasting Wine Sales Under Optimal Advertising Strategy
+                                            <b>Forecasting Wine Sales Under Optimal Advertising Strategy</b>
                                         </strong></h2>
 									</header>
                                         <p>
-                                            Coming soon!
-                                        </p>
+                                            <i>(Posted May 31, 2020)</i>
+										</p>
+										<p>
+											<i>My coauthor and I completed this paper for the Machine Learning course taught through the NYU Economics Master’s program. This was 
+												done in our second semester in the program. Our prompt was to apply a variety of the ML techniques discussed in class to a problem 
+												in Economics. </i>
+										</p>
+										<p>
+											<b>Original:</b> <a href="https://drive.google.com/file/d/1KbutLMtgqITHvr7DHk48eLTcXB9yKTKy/view?usp=sharing">
+											Forecasting Wine Sales under Optimal Advertising Strategy
+											</a>
+										</p>
+										<p>
+											<b>Summary:</b>
+										</p>
+										<p>
+											For economists, wine is an especially interesting industry to analyze. For many consumers the price on the bottle is the only indicator 
+											of the quality of the wine. In addition, in many states, it is illegal for wineries and distributors to explicitly collaborate with 
+											stores to set prices on the shelf. It is under these conditions that marketing and price reductions are crucial.
+										</p>
+										<p>
+											Our data contained sales information for two varietals from the same winery over a period of three years. The data also specified sales 
+											by what promotional scheme was active at the time:
+											<ul>
+												<li> <b>Display</b> refers to any in-store display, usually this meant placement on an aisle end-cap or island.</li>
+												<li> <b>Feature</b> refers to the wine being included in the store’s mail, newsletter, or newspaper advertising.</li>
+												<li> <b>Display and Feature</b> refers to the use of Display and Feature simultaneously.</li>
+												<li> <b>Temporary Price Reduction (TPR)</b> is the reduction of the wine’s price for a temporary period of time.</li>
+												<li> <b>No-promo</b> was the shorthand in the data to refer to sales made in the absence of any promotion.</li>
+											</ul>
+										</p>
+										<p>
+											Our first goal was to utilize K-means clustering to explore whether there was evidence that the sale for the two varietals could be 
+											considered distinct subgroups. Should K-means fail to find sufficient evidence of subgroups, we would conduct analysis on the dataset 
+											as a whole; however, since our K-means algorithm returned strong evidence of two subgroups, we continued our analysis on the varietals 
+											separately.
+										</p>
+										<p>
+											From there we structured two models to include promotional and seasonal variables. Since the promotional strategies usually extended over 
+											several weeks, we generated lagged terms equal to the typical length of the promotion, and included those variables in the model as well. 
+											These models were fit using the Ridge and LASSO regression algorithms; however, since it produced the lower RMSE for both varietals, we 
+											conducted the rest of our analysis with the LASSO models. The LASSO models had the added benefit of eliminating more unnecessary 
+											variables.
+											From there we back-fit the model to the data. We calculated the estimated sales, assuming optimal use of advertising as dictated by 
+											the models. From our estimates we found that the winery could increase profits by several thousand dollars with more judicious use of 
+											advertising.
+										</p>
+										<p>
+											<b>Remarks:</b>
+										</p>
+										<p>
+											This was an interesting project, and was our first hands-on experience with Machine Learning. Unfortunately, sales and marketing data 
+											is not easily available to those outside the industry, and as a result we were unable to explore all of the questions we had about 
+											the data. We would have like to explore how the effectiveness of advertising diminishes over time and what factors might influence 
+											the diminishing returns. I have no doubt that the code and models from this project could be developed further with additional 
+											industry data and be made to address these questions.
+										</p>
 								</section>
 							</div>
 						</div>
